@@ -321,3 +321,10 @@ func matrix_perspective_left_hand(fovyRadians fovy: Float, aspectRatio: Float, n
 func radians_from_degrees(_ degrees: Float) -> Float {
     return (degrees / 180) * .pi
 }
+
+func matrix4x4_scale(x: Float, y: Float, z: Float) -> matrix_float4x4 {
+    return matrix_float4x4.init(columns:(vector_float4(x, 0, 0, 0),
+                                         vector_float4(0, y, 0, 0),
+                                         vector_float4(0, 0, z, 0),
+                                         vector_float4(0, 0, 0, 1)))
+}
