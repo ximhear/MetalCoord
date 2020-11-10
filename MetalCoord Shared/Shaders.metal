@@ -18,13 +18,12 @@ using namespace metal;
 typedef struct
 {
     float3 position [[attribute(VertexAttributePosition)]];
-    float2 texCoord [[attribute(VertexAttributeTexcoord)]];
 } Vertex;
 
 typedef struct
 {
     float4 position [[position]];
-    float2 texCoord;
+    float pointSize [[point_size]];
 } ColorInOut;
 
 vertex ColorInOut vertexShader(Vertex in [[stage_in]],
@@ -34,20 +33,12 @@ vertex ColorInOut vertexShader(Vertex in [[stage_in]],
 
     float4 position = float4(in.position, 1.0);
     out.position = uniforms.projectionMatrix * uniforms.modelViewMatrix * position;
-    out.texCoord = in.texCoord;
-
+    out.pointSize = 10;
     return out;
 }
 
 fragment float4 fragmentShader(ColorInOut in [[stage_in]],
-                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]],
-                               texture2d<half> colorMap     [[ texture(TextureIndexColor) ]])
+                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]])
 {
-    constexpr sampler colorSampler(mip_filter::linear,
-                                   mag_filter::linear,
-                                   min_filter::linear);
-
-    half4 colorSample   = colorMap.sample(colorSampler, in.texCoord.xy);
-
-    return float4(colorSample);
+    return float4(1, 0, 0, 1);
 }
